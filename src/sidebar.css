@@ -1,0 +1,19 @@
+.sidebar-content {
+	display: none;
+}
+.sidebar-header {
+	text-align: center;
+}
+#sidebar-interact {
+	background: white;
+	border: 2px solid #BAB3AD;
+	border-radius: 8px;
+	height: 98vh;
+	overflow-y: auto;
+	width: 460px;
+	margin: 6px;
+}
+.sidebar-footer {
+	text-align: center;
+	background-color: red;
+}
