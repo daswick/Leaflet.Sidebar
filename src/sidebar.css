@@ -4,6 +4,9 @@
 .sidebar-header {
 	text-align: center;
 }
+.sidebar-body {
+	padding: 4px;	
+}
 #sidebar-interact {
 	background: white;
 	border: 2px solid #BAB3AD;

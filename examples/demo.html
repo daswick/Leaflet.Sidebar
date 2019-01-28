@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>NCCU Map</title>
+	<title>Sidebar test</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 	
@@ -55,7 +55,7 @@
 </head>
 <body onload='initMap();'>
     <div id="sidebar" class="sidebar">
-        <div class="sidebar-content">
+        <div class="sidebar-content" id="sidebar-1">
 			<div class="sidebar-header">
 				<h1>Sidebar test </h1>
 			</div>
@@ -69,6 +69,22 @@
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>		
 				
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+				
+				<input type="button" value="Show layer 1" onclick="sidebar.showLayer(1);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>
+		
+		<div class="sidebar-content" id="sidebar-2">
+			<div class="sidebar-header">
+				<h1>Sidebar test </h1>
+			</div>
+			<div class="sidebar-body">
+				<p>Sample text</p>
+				
+				<input type="button" value="Show layer 0" onclick="sidebar.showLayer(0);">
 			</div>
 			<div class="sidebar-footer">
 				<h2>This is where a footer goes.</h2>
