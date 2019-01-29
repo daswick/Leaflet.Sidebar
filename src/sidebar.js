@@ -17,11 +17,19 @@ L.Control.Sidebar = L.Control.extend({
 			L.DomUtil.addClass(this._sidebar, 'leaflet-touch');
 		}
 		
+		this._side = (this.options.position === 'topright' || this.options.position === 'bottomright') ? 'right' : 'left';
+		
 		// Extracts the different layers for this sidebar
 		this._layers = [];
 		for(var i = 0; i < this._sidebar.children.length; i++)
 		{
-			this._layers.push(this._sidebar.children[i].innerHTML);
+			var newLayer = this._sidebar.children[i];
+			
+			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');
+			L.DomUtil.addClass(newLayer.children[1], this._side + '-body');
+			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
+			
+			this._layers.push(newLayer.innerHTML);
 		}
 	},
 	onAdd: function(map) 

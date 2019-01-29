@@ -1,0 +1,15 @@
+h1 {
+	margin: 0;
+}
+h2 {
+	margin: 0;
+}
+.sidebar-header {
+	background-color: lightblue;
+	text-align: center;
+}
+.sidebar-footer {
+	text-align: center;
+	vertical-align: center;
+	background-color: lightsteelblue;
+}
