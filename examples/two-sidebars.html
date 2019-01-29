@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sidebar test</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+	
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+	
+	<link rel="stylesheet" href="../src/sidebar.css"/>
+	<script src="../src/sidebar.js"></script>
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+
+	</style>
+	<script>
+		var leftSidebar;
+		var rightSidebar;
+		var sidebarButton;
+		
+		function initMap()
+		{
+			var map = L.map('map', {
+				center: [35.9738346, -78.8982177],
+				zoom: 16,
+				minZoom: 15,
+				zoomControl: false
+			});
+			
+			var view = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+				maxZoom: 20,
+				attribution: 'Imagery © <a href="https://www.mapbox.com/" target="_blank">Mapbox</a>',
+				id: 'mapbox.streets',
+			});
+			map.addLayer(view);
+			
+			var marker = L.marker([35.9738346, -78.8982177]);
+			marker.bindPopup("Test");
+			marker.addTo(map);
+
+			leftSidebar = L.control.sidebar("sidebar-left").addTo(map);
+			leftSidebar.open();
+			
+			rightSidebar = L.control.sidebar("sidebar-right", {position: 'topright'}).addTo(map);
+			rightSidebar.open();
+		}
+	</script>
+</head>
+<body onload='initMap();'>
+    <div id="sidebar-left" class="sidebar">
+        <div class="sidebar-content" id="sidebar-1">
+			<div class="sidebar-header">
+				<h1>Left sidebar</h1>
+			</div>
+			<div class="sidebar-body">			
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+				
+				<input type="button" value="Show layer 1" onclick="leftSidebar.showLayer(1);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>
+		
+		<div class="sidebar-content" id="sidebar-2">
+			<div class="sidebar-header">
+				<h1>Left sidebar</h1>
+			</div>
+			<div class="sidebar-body">
+				<p>Sample text</p>
+				
+				<input type="button" value="Show layer 0" onclick="leftSidebar.showLayer(0);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>
+	</div>
+	<div id="sidebar-right" class="sidebar">
+        <div class="sidebar-content" id="sidebar-3">
+			<div class="sidebar-header">
+				<h1>Right sidebar</h1>
+			</div>
+			<div class="sidebar-body">			
+                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+				
+				<input type="button" value="Show layer 1" onclick="rightSidebar.showLayer(1);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>
+		
+		<div class="sidebar-content" id="sidebar-4">
+			<div class="sidebar-header">
+				<h1>Right sidebar</h1>
+			</div>
+			<div class="sidebar-body">
+				<p>Sample text</p>
+				
+				<input type="button" value="Show layer 0" onclick="rightSidebar.showLayer(0);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>	
+	</div>
+	<div id="map" class='sidebar-map'></div>
+</body>
+</html>

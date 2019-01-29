@@ -35,7 +35,7 @@
 			
 			var view = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 				maxZoom: 20,
-				attribution: 'Imagery Â© <a href="https://www.mapbox.com/" target="_blank">Mapbox</a>',
+				attribution: 'Imagery © <a href="https://www.mapbox.com/" target="_blank">Mapbox</a>',
 				id: 'mapbox.streets',
 			});
 			map.addLayer(view);
@@ -44,12 +44,9 @@
 			marker.bindPopup("Test");
 			marker.addTo(map);
 
-			sidebar = L.control.sidebar().addTo(map);
+			sidebar = L.control.sidebar("sidebar").addTo(map);
 			
 			sidebar.open();
-			
-			L.DomEvent.disableClickPropagation(document.getElementById("sidebar-interact"));
-			L.DomEvent.disableScrollPropagation(document.getElementById("sidebar-interact"));
 		}
 	</script>
 </head>
@@ -57,7 +54,7 @@
     <div id="sidebar" class="sidebar">
         <div class="sidebar-content" id="sidebar-1">
 			<div class="sidebar-header">
-				<h1>Sidebar test </h1>
+				<h1>Sidebar test</h1>
 			</div>
 			<div class="sidebar-body">			
                 <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
