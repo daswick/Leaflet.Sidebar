@@ -74,7 +74,7 @@ L.Control.Sidebar = L.Control.extend({
 		if(this._isVisible) 
 		{
 			this._isVisible = false;
-			this._container.style = "display: block;";
+			this._container.style = "display: none;";
 		}
 	},
 	showLayer: function(index) 
