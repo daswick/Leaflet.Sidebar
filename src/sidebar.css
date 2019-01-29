@@ -1,22 +1,24 @@
 .sidebar-content {
 	display: none;
 }
-.sidebar-header {
-	text-align: center;
-}
-.sidebar-body {
-	padding: 4px;	
-}
 .leaflet-sidebar {
 	background: white;
 	border: 2px solid #BAB3AD;
 	border-radius: 8px;
-	height: 98vh;
-	overflow-y: auto;
+	height: 97vh;
 	width: 30vw;
-	margin: 6px;
+}
+.sidebar-header {
+	text-align: center;
+	height: 10vh;
+}
+.sidebar-body {
+	padding: 4px;
+	overflow: auto;
+	height: 72vh;
 }
 .sidebar-footer {
 	text-align: center;
 	background-color: red;
+	bottom: 0;
 }
