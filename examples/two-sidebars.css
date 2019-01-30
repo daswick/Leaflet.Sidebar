@@ -7,10 +7,18 @@ h2 {
 .sidebar-header {
 	background-color: lightblue;
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.sidebar-body {
+	padding: 0 2em 0 2em;
 }
 .sidebar-footer {
 	text-align: center;
-	vertical-align: middle;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 .left-footer {
 	background-color: cornflowerblue;
