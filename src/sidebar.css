@@ -2,11 +2,16 @@
 	display: none;
 }
 .leaflet-sidebar {
+	height: 98vh;
+	width: 33vw;
+}
+.sample {
+	display: none;
 	background: white;
 	border: 2px solid #BAB3AD;
 	border-radius: 6px;
-	height: 97vh;
-	width: 30vw;
+	float: left;
+	width: 90%;
 }
 .sidebar-header {
 	height: 10vh;
@@ -17,11 +22,17 @@
 	overflow: auto;
 }
 .sidebar-footer {
-	position: absolute;
 	height: 10vh;
 	bottom: 0;
 	right: 0;
 	left: 0;
 	border-radius: 0 0 4px 4px;
 	overflow: hidden;
+}
+.close-button {
+	width: 7%;
+	height: 4vh;
+	font-size: 16px;
+	float: left;
+	display: inline;
 }

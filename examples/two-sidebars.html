@@ -46,16 +46,14 @@
 			marker.bindPopup("Test");
 			marker.addTo(map);
 
-			leftSidebar = L.control.sidebar("sidebar-left", {showHeader: true}).addTo(map);
-			leftSidebar.open();
+			leftSidebar = L.control.sidebar("left-sidebar", {openOnAdd: true, showHeader: true}).addTo(map);
 			
-			rightSidebar = L.control.sidebar("sidebar-right", {showHeader: true, showFooter: true, position: 'topright'}).addTo(map);
-			rightSidebar.open();
+			rightSidebar = L.control.sidebar("right-sidebar", {openOnAdd: true, showHeader: true, showFooter: true, position: 'topright'}).addTo(map);
 		}
 	</script>
 </head>
 <body onload='initMap();'>
-    <div id="sidebar-left" class="sidebar">
+    <div id="left-sidebar" class="sidebar">
         <div class="sidebar-content" id="sidebar-1">
 			<div class="sidebar-header">
 				<h1>Left sidebar</h1>
@@ -84,7 +82,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="sidebar-right" class="sidebar">
+	<div id="right-sidebar" class="sidebar">
         <div class="sidebar-content" id="sidebar-3">
 			<div class="sidebar-header">
 				<h1>Right sidebar</h1>
