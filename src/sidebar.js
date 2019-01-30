@@ -2,6 +2,8 @@ L.Control.Sidebar = L.Control.extend({
 	options: {
 		position: 'topleft',
 		openOnAdd: false,
+		showHeader: false,
+		showFooter: false,
 	},
 	initialize: function(sidebarID, options) 
 	{
@@ -17,17 +19,34 @@ L.Control.Sidebar = L.Control.extend({
 			L.DomUtil.addClass(this._sidebar, 'leaflet-touch');
 		}
 		
+		// Gets the "side" of the map the sidebar is on
 		this._side = (this.options.position === 'topright' || this.options.position === 'bottomright') ? 'right' : 'left';
 		
+		// Determines the height of the sidebar body based on options passed by user
+		var bodyHeight = 76 + (this.options.showHeader ? 0 : 10) + (this.options.showFooter ? 0 : 10);
+
 		// Extracts the different layers for this sidebar
 		this._layers = [];
 		for(var i = 0; i < this._sidebar.children.length; i++)
 		{
 			var newLayer = this._sidebar.children[i];
 			
-			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');
+			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');			
 			L.DomUtil.addClass(newLayer.children[1], this._side + '-body');
 			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
+
+			// Modifies height of the elements based on options
+			if(!this.options.showHeader)
+			{
+				newLayer.children[0].style.height = '0vh';
+			}
+
+			if(!this.options.showFooter)
+			{
+				newLayer.children[2].style.height = '0vh';
+			}
+			
+			newLayer.children[1].style.height = bodyHeight.toString() + 'vh';
 			
 			this._layers.push(newLayer.innerHTML);
 		}
