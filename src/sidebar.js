@@ -78,14 +78,23 @@ L.Control.Sidebar = L.Control.extend({
 				
 		// Creates the div for the button to toggle the sidebar
 		this._closeButton = L.DomUtil.create('div', 'sidebar-close');
+		L.DomUtil.addClass(this._closeButton, this._side + '-close');
 		
 		// An XNOR of if the side is left and if it is visible to determine correct arrow
 		var value = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
 		this._closeButton.innerHTML = "<input type='button' class='close-button' value='" + value + "' onclick='toggleSidebar(\"" + this._id + "\");'></input>";
 		
+		if(this._side === 'right')
+		{
+			this._container.appendChild(this._closeButton);					
+			this._container.appendChild(this._content);
+		}
+		else
+		{
+			this._container.appendChild(this._content);
+			this._container.appendChild(this._closeButton);		
+		}
 		// Fills in sidebar container with the content and button
-		this._container.appendChild(this._content);
-		this._container.appendChild(this._closeButton);		
 		this._container.style = "display: block;";
 
 		// Disables click and scroll propagation, i.e. allow user to click and scroll on sidebar without affecting map
@@ -155,14 +164,37 @@ function toggleSidebar(sidebarID)
 {
 	// Gets sidebar container by the ID
 	var sidebar = document.getElementById(sidebarID);
+	
+	var closeButton, sidebarContent;
+	
+	if(L.DomUtil.hasClass(sidebar.children[0], 'sidebar-close'))
+	{
+		closeButton = sidebar.children[0];
+		sidebarContent = sidebar.children[1];
+	}
+	else
+	{
+		closeButton = sidebar.children[1];
+		sidebarContent = sidebar.children[0];
+	}
 
 	// Changes the text on the close button
-	var closeButton = sidebar.children[1].children[0];
-	closeButton.value = (closeButton.value === '<' ? '>' : '<');
+	closeButton.children[0].value = (closeButton.children[0].value === '<' ? '>' : '<');
+	
+	// Toggles class 'right-closed' for right-oriented close button
+	if(L.DomUtil.hasClass(closeButton, 'right-close'))
+	{
+		if(L.DomUtil.hasClass(closeButton, 'right-closed'))
+		{
+			L.DomUtil.removeClass(closeButton, 'right-closed');
+		}
+		else
+		{
+			L.DomUtil.addClass(closeButton, 'right-closed');
+		}
+	}
 
 	// Toggles sidebar content
-	var sidebarContent = sidebar.children[0];
-	
 	if(sidebarContent.style.display === 'none')
 	{
 		sidebarContent.style.display = 'block';
