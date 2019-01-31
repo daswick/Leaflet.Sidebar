@@ -4,6 +4,7 @@ L.Control.Sidebar = L.Control.extend({
 		openOnAdd: false,
 		showHeader: false,
 		showFooter: false,
+		fullHeight: false
 	},
 	initialize: function(sidebarID, options) 
 	{
@@ -24,7 +25,7 @@ L.Control.Sidebar = L.Control.extend({
 		this._id = (this.options.position === 'topright' || this.options.position === 'bottomright') ? "sidebar-right" : "sidebar-left";
 		
 		// Determines the height of the sidebar body based on options passed by user
-		var bodyHeight = 76 + (this.options.showHeader ? 0 : 10) + (this.options.showFooter ? 0 : 10);
+		var bodyHeight = (this.options.fullHeight ? 80 : 77) + (this.options.showHeader ? 0 : 10) + (this.options.showFooter ? 0 : 10);
 
 		// Extracts the different layers for this sidebar
 		this._layers = [];
@@ -70,6 +71,15 @@ L.Control.Sidebar = L.Control.extend({
 		// Creates the container for the sidebar and the button
 		this._container = L.DomUtil.create('div', 'leaflet-sidebar');
 		this._container.id = this._id;
+		
+		if(this.options.fullHeight)
+		{
+			this._container.style = "display: block; margin-left: 0; margin-right: 0; margin-top: 0;";
+		}
+		else
+		{
+			this._container.style = "display: block;";
+		}
 
 		// Creates the div for the sidebar
 		this._content = L.DomUtil.create('div', 'sample');
@@ -94,8 +104,6 @@ L.Control.Sidebar = L.Control.extend({
 			this._container.appendChild(this._content);
 			this._container.appendChild(this._closeButton);		
 		}
-		// Fills in sidebar container with the content and button
-		this._container.style = "display: block;";
 
 		// Disables click and scroll propagation, i.e. allow user to click and scroll on sidebar without affecting map
 		L.DomEvent.on(this._container, 'mousewheel', L.DomEvent.stopPropagation);
