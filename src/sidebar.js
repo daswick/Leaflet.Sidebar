@@ -3,8 +3,10 @@ L.Control.Sidebar = L.Control.extend({
 		position: 'topleft',
 		openOnAdd: false,
 		showHeader: false,
-		showFooter: false,
-		fullHeight: false
+		showFooter: true,
+		fullHeight: false,
+		headerHeight: 10,
+		footerHeight: 10
 	},
 	initialize: function(sidebarID, options) 
 	{
@@ -24,8 +26,10 @@ L.Control.Sidebar = L.Control.extend({
 		this._side = (this.options.position === 'topright' || this.options.position === 'bottomright') ? 'right' : 'left';
 		this._id = (this.options.position === 'topright' || this.options.position === 'bottomright') ? "sidebar-right" : "sidebar-left";
 		
-		// Determines the height of the sidebar body based on options passed by user
-		var bodyHeight = (this.options.fullHeight ? 80 : 77) + (this.options.showHeader ? 0 : 10) + (this.options.showFooter ? 0 : 10);
+		// Determines the height of the sidebar elements based on options passed by user
+		var headerHeight = this.options.showHeader ? this.options.headerHeight : 0;
+		var footerHeight = this.options.showFooter ? this.options.footerHeight : 0;
+		var bodyHeight = (this.options.fullHeight ? 100 : 97) - headerHeight - footerHeight;
 
 		// Extracts the different layers for this sidebar
 		this._layers = [];
@@ -38,17 +42,9 @@ L.Control.Sidebar = L.Control.extend({
 			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
 
 			// Modifies height of the elements based on options
-			if(!this.options.showHeader)
-			{
-				newLayer.children[0].style.height = '0vh';
-			}
-
-			if(!this.options.showFooter)
-			{
-				newLayer.children[2].style.height = '0vh';
-			}
-			
+			newLayer.children[0].style.height = this.options.showHeader ? this.options.headerHeight.toString() + 'vh' : '0vh';
 			newLayer.children[1].style.height = bodyHeight.toString() + 'vh';
+			newLayer.children[2].style.height = this.options.showFooter ? this.options.footerHeight.toString() + 'vh' : '0vh';
 			
 			this._layers.push(newLayer.innerHTML);
 		}
@@ -72,13 +68,9 @@ L.Control.Sidebar = L.Control.extend({
 		this._container = L.DomUtil.create('div', 'leaflet-sidebar');
 		this._container.id = this._id;
 		
-		if(this.options.fullHeight)
+		if(this.options.fullHeight || this._side === 'right')
 		{
-			this._container.style = "display: block; margin-left: 0; margin-right: 0; margin-top: 0;";
-		}
-		else
-		{
-			this._container.style = "display: block;";
+			this._container.style = (this.options.fullHeight ? "margin-left: 0; margin-right: 0; margin-top: 0;" : "") + (this._side === 'right' ? "justify-content: flex-end;" : "");
 		}
 
 		// Creates the div for the sidebar
@@ -96,7 +88,7 @@ L.Control.Sidebar = L.Control.extend({
 		
 		if(this._side === 'right')
 		{
-			this._container.appendChild(this._closeButton);					
+			this._container.appendChild(this._closeButton);	
 			this._container.appendChild(this._content);
 		}
 		else
@@ -192,14 +184,7 @@ function toggleSidebar(sidebarID)
 	// Toggles class 'right-closed' for right-oriented close button
 	if(L.DomUtil.hasClass(closeButton, 'right-close'))
 	{
-		if(L.DomUtil.hasClass(closeButton, 'right-closed'))
-		{
-			L.DomUtil.removeClass(closeButton, 'right-closed');
-		}
-		else
-		{
-			L.DomUtil.addClass(closeButton, 'right-closed');
-		}
+		
 	}
 
 	// Toggles sidebar content

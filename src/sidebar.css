@@ -3,6 +3,7 @@
 }
 .leaflet-sidebar {
 	width: 33vw;
+	display: flex;
 }
 .sample {
 	display: none;
@@ -30,11 +31,6 @@
 }
 .close-button {
 	margin: 0.5cm 0 0 0;
-	width: 7%;
 	height: 4vh;
 	font-size: 16px;
-	float: left;
-}
-.right-closed {
-	float: right;
 }
