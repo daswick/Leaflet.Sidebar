@@ -23,7 +23,6 @@
 	</style>
 	<script>
 		var sidebar;
-		var sidebarButton;
 		
 		function initMap()
 		{
@@ -45,9 +44,7 @@
 			marker.bindPopup("Test");
 			marker.addTo(map);
 
-			sidebar = L.control.sidebar("sidebar").addTo(map);
-			
-			//sidebar.open();
+			sidebar = L.control.sidebar("sidebar", {showHeader: true, showFooter: true}).addTo(map);
 		}
 	</script>
 </head>
@@ -82,7 +79,19 @@
 			<div class="sidebar-body">
 				<p>Sample text</p>
 				
-				<input type="button" value="Show layer 0" onclick="sidebar.showLayer(0);">
+				<input type="button" value="Show layer 2" onclick="sidebar.showLayer(2);">
+			</div>
+			<div class="sidebar-footer">
+				<h2>This is where a footer goes.</h2>
+			</div>
+		</div>
+		
+		<div class="sidebar-content" id="sidebar-3" parent="0">
+			<div class="sidebar-header">
+				<h1>Sidebar test </h1>
+			</div>
+			<div class="sidebar-body">
+				<p>Click this to go back to the home page</p>
 			</div>
 			<div class="sidebar-footer">
 				<h2>This is where a footer goes.</h2>
