@@ -3,7 +3,7 @@ L.Control.Sidebar = L.Control.extend({
 		position: 'topleft',
 		openOnAdd: false,
 		showHeader: false,
-		showFooter: true,
+		showFooter: false,
 		fullHeight: false,
 		headerHeight: 10,
 		footerHeight: 10
@@ -46,7 +46,22 @@ L.Control.Sidebar = L.Control.extend({
 			newLayer.children[1].style.height = bodyHeight.toString() + 'vh';
 			newLayer.children[2].style.height = this.options.showFooter ? this.options.footerHeight.toString() + 'vh' : '0vh';
 			
-			this._layers.push(newLayer.innerHTML);
+			// Adds in "back" button if the layer has a parent set
+			if(newLayer.getAttribute("parent"))
+			{
+				var layerParent = parseInt(newLayer.getAttribute("parent"));
+				var backDiv = L.DomUtil.create('div', 'back-button');
+				var backButton = L.DomUtil.create('button', 'backback');
+				backButton.innerHTML = "Back";
+				backButton.onclick = function() {
+					this.showLayer(layerParent);
+				}.bind(this);
+				backDiv.appendChild(backButton);
+				
+				newLayer.children[1].appendChild(backDiv);
+			}
+			
+			this._layers.push(newLayer);
 		}
 	},
 	onAdd: function(map) 
@@ -74,17 +89,28 @@ L.Control.Sidebar = L.Control.extend({
 		}
 
 		// Creates the div for the sidebar
-		this._content = L.DomUtil.create('div', 'sample');
-		this._content.innerHTML = this._layers[0];
+		this._content = L.DomUtil.create('div', 'sidebar-layer');
+		
+		this._currentIndex = 0;
+		while(this._layers[0].firstChild)
+		{
+			this._content.appendChild(this._layers[0].firstChild);
+		}
+
 		this._content.style = (this._isVisible) ? "display: block;" : "display: none;";
-				
+		
 		// Creates the div for the button to toggle the sidebar
 		this._closeButton = L.DomUtil.create('div', 'sidebar-close');
 		L.DomUtil.addClass(this._closeButton, this._side + '-close');
 		
 		// An XNOR of if the side is left and if it is visible to determine correct arrow
 		var value = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
-		this._closeButton.innerHTML = "<input type='button' class='close-button' value='" + value + "' onclick='toggleSidebar(\"" + this._id + "\");'></input>";
+		var cButton = L.DomUtil.create('button', 'close-button');
+		cButton.innerHTML = value;
+		cButton.onclick = function() {
+			this.toggle();
+		}.bind(this);
+		this._closeButton.appendChild(cButton);
 		
 		if(this._side === 'right')
 		{
@@ -109,7 +135,10 @@ L.Control.Sidebar = L.Control.extend({
 		if(!this._isVisible) 
 		{
 			this._isVisible = true;
-			toggleSidebar(this._id);
+			
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '>' : '<';
+			
+			this._content.style = "display: block;";
 		}
 	},
 	close: function() 
@@ -118,7 +147,10 @@ L.Control.Sidebar = L.Control.extend({
 		if(this._isVisible) 
 		{
 			this._isVisible = false;
-			toggleSidebar(this._id);
+
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '<' : '>';
+			
+			this._content.style = "display: none;";
 		}
 	},
 	showLayer: function(index) 
@@ -132,12 +164,15 @@ L.Control.Sidebar = L.Control.extend({
 		// Removes all content from the sidebar (and removes any nodes)
 		while(this._content.firstChild)
 		{
-			this._content.removeChild(this._content.firstChild);
+			this._layers[this._currentIndex].appendChild(this._content.firstChild);
 		}
 		
 		// Sets the sidebar content to the requested layer
-		// BUG: Changing the innerHTML may not be best practice, but I couldn't get appendChild to work for me
-		this._content.innerHTML = this._layers[index];
+		while(this._layers[index].firstChild)
+		{
+			this._content.appendChild(this._layers[index].firstChild);
+		}
+		this._currentIndex = index;
 	},
 	toggle: function() 
 	{
@@ -159,44 +194,6 @@ L.Control.Sidebar = L.Control.extend({
 		setContent
 	*/
 });
-
-function toggleSidebar(sidebarID)
-{
-	// Gets sidebar container by the ID
-	var sidebar = document.getElementById(sidebarID);
-	
-	var closeButton, sidebarContent;
-	
-	if(L.DomUtil.hasClass(sidebar.children[0], 'sidebar-close'))
-	{
-		closeButton = sidebar.children[0];
-		sidebarContent = sidebar.children[1];
-	}
-	else
-	{
-		closeButton = sidebar.children[1];
-		sidebarContent = sidebar.children[0];
-	}
-
-	// Changes the text on the close button
-	closeButton.children[0].value = (closeButton.children[0].value === '<' ? '>' : '<');
-	
-	// Toggles class 'right-closed' for right-oriented close button
-	if(L.DomUtil.hasClass(closeButton, 'right-close'))
-	{
-		
-	}
-
-	// Toggles sidebar content
-	if(sidebarContent.style.display === 'none')
-	{
-		sidebarContent.style.display = 'block';
-	}
-	else
-	{
-		sidebarContent.style.display = 'none';
-	}
-}
 
 L.control.sidebar = function(sidebarID, options) {
 	return new L.Control.Sidebar(sidebarID, options);

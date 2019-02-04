@@ -5,7 +5,7 @@
 	width: 33vw;
 	display: flex;
 }
-.sample {
+.sidebar-layer {
 	display: none;
 	background: white;
 	border: 2px solid #BAB3AD;
