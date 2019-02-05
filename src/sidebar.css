@@ -6,7 +6,6 @@
 	display: flex;
 }
 .sidebar-layer {
-	display: none;
 	background: white;
 	border: 2px solid #BAB3AD;
 	border-radius: 6px;
@@ -14,15 +13,12 @@
 	width: 92%;
 }
 .sidebar-header {
-	height: 10vh;
 	overflow: hidden;
 }
 .sidebar-body {
-	height: 76vh;
 	overflow: auto;
 }
 .sidebar-footer {
-	height: 10vh;
 	bottom: 0;
 	right: 0;
 	left: 0;

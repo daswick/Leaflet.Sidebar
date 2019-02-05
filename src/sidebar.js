@@ -37,6 +37,7 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			var newLayer = this._sidebar.children[i];
 			
+			// Assigns classes to header, body, and footer nodes
 			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');			
 			L.DomUtil.addClass(newLayer.children[1], this._side + '-body');
 			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
@@ -49,19 +50,22 @@ L.Control.Sidebar = L.Control.extend({
 			// Adds in "back" button if the layer has a parent set
 			if(newLayer.getAttribute("parent"))
 			{
+				// Shrink body height to accommodate back button
 				newLayer.children[1].style.height = (bodyHeight - 3).toString() + 'vh';
 				
+				// Parses parent attribute and creates back button container div
 				var layerParent = parseInt(newLayer.getAttribute("parent"));
 				var backDiv = L.DomUtil.create('div', 'sidebar-back');
+				
+				// Creates actual button with the back function
 				var backButton = L.DomUtil.create('button', 'back-button');
 				backButton.innerHTML = "Back";
-				
 				L.DomEvent.on(backButton, 'click', function() { 
 					this.showLayer(layerParent); 
 				}, this);
-				
 				backDiv.appendChild(backButton);
 				
+				// Inserts back button before body section
 				newLayer.insertBefore(backDiv, newLayer.children[1]);
 			}
 			
@@ -87,6 +91,7 @@ L.Control.Sidebar = L.Control.extend({
 		this._container = L.DomUtil.create('div', 'leaflet-sidebar');
 		this._container.id = this._id;
 
+		// Disables margins if the user has specified full height
 		if(this.options.fullHeight)
 		{
 			this._container.style.marginTop = 0;
@@ -94,6 +99,7 @@ L.Control.Sidebar = L.Control.extend({
 			this._container.style.marginLeft = 0;
 		}
 		
+		// Ensures the toggle button will go to the end of the page
 		if(this._side === 'right')
 		{
 			this._container.style.justifyContent = 'flex-end';
@@ -101,30 +107,29 @@ L.Control.Sidebar = L.Control.extend({
 
 		// Creates the div for the sidebar
 		this._content = L.DomUtil.create('div', 'sidebar-layer');
+		this._content.id = this._side + "-layer";
+		this._content.style.display = (this._isVisible) ? 'block' : 'none';
 		
+		// Extracts nodes from first layer to place into sidebar
 		this._currentIndex = 0;
 		while(this._layers[0].firstChild)
 		{
 			this._content.appendChild(this._layers[0].firstChild);
 		}
-
-		this._content.style.display = (this._isVisible) ? 'block' : 'none';
-		this._content.id = this._side + "-layer";
 		
 		// Creates the div for the button to toggle the sidebar
 		this._closeButton = L.DomUtil.create('div', 'sidebar-close');
 		L.DomUtil.addClass(this._closeButton, this._side + '-close');
 		
-		// An XNOR of if the side is left and if it is visible to determine correct arrow
-		var value = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
+		// Creates the actual button to toggle the sidebar
 		var cButton = L.DomUtil.create('button', 'close-button');
-		cButton.innerHTML = value;
-		
+		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
 		L.DomEvent.on(cButton, 'click', function() {
 			this.toggle();
 		}, this);
 		this._closeButton.appendChild(cButton);
 		
+		// Changes order of additions based on side (so they display correctly)
 		if(this._side === 'right')
 		{
 			this._container.appendChild(this._closeButton);	
