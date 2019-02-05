@@ -10,6 +10,7 @@
 	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 	
 	<link rel="stylesheet" href="../src/sidebar.css"/>
+	<link rel="stylesheet" href="../src/sidebar-fancy.css"/>
 	<script src="../src/sidebar.js"></script>
 	<style>
 		body {
@@ -46,9 +47,18 @@
 			marker.bindPopup("Test");
 			marker.addTo(map);
 
-			leftSidebar = L.control.sidebar("left-sidebar", {openOnAdd: true, showHeader: true}).addTo(map);
+			leftSidebar = L.control.sidebar("left-sidebar", {
+				openOnAdd: true, 
+				showHeader: true,
+			}).addTo(map);
 			
-			rightSidebar = L.control.sidebar("right-sidebar", {openOnAdd: true, fullHeight: true, showHeader: true, showFooter: true, position: 'topright'}).addTo(map);
+			rightSidebar = L.control.sidebar("right-sidebar", {
+				openOnAdd: true, 
+				fullHeight: true, 
+				showHeader: true, 
+				showFooter: true, 
+				position: 'topright'
+			}).addTo(map);
 		}
 	</script>
 </head>

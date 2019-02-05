@@ -55,9 +55,11 @@ L.Control.Sidebar = L.Control.extend({
 				var backDiv = L.DomUtil.create('div', 'sidebar-back');
 				var backButton = L.DomUtil.create('button', 'back-button');
 				backButton.innerHTML = "Back";
-				backButton.onclick = function() {
-					this.showLayer(layerParent);
-				}.bind(this);
+				
+				L.DomEvent.on(backButton, 'click', function() { 
+					this.showLayer(layerParent); 
+				}, this);
+				
 				backDiv.appendChild(backButton);
 				
 				newLayer.insertBefore(backDiv, newLayer.children[1]);
@@ -117,9 +119,10 @@ L.Control.Sidebar = L.Control.extend({
 		var value = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
 		var cButton = L.DomUtil.create('button', 'close-button');
 		cButton.innerHTML = value;
-		cButton.onclick = function() {
+		
+		L.DomEvent.on(cButton, 'click', function() {
 			this.toggle();
-		}.bind(this);
+		}, this);
 		this._closeButton.appendChild(cButton);
 		
 		if(this._side === 'right')

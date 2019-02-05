@@ -1,0 +1,18 @@
+.sidebar-header {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.sidebar-back {
+	padding: 0.5em 2em 0 2em;
+}
+.sidebar-body {
+	padding: 0 2em 0 2em;
+}
+.sidebar-footer {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}

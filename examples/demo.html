@@ -10,6 +10,7 @@
 	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 	
 	<link rel="stylesheet" href="../src/sidebar.css"/>
+	<link rel="stylesheet" href="../src/sidebar-fancy.css"/>
 	<script src="../src/sidebar.js"></script>
 	<style>
 		body {
@@ -44,7 +45,10 @@
 			marker.bindPopup("Test");
 			marker.addTo(map);
 
-			sidebar = L.control.sidebar("sidebar", {showHeader: true, showFooter: true}).addTo(map);
+			sidebar = L.control.sidebar("sidebar", {
+				showHeader: true, 
+				showFooter: true
+			}).addTo(map);
 		}
 	</script>
 </head>
