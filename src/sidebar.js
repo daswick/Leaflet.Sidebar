@@ -15,7 +15,7 @@ L.Control.Sidebar = L.Control.extend({
 		
 		// Returns element from HTML based on its ID
 		this._sidebar = L.DomUtil.get(sidebarID);
-		
+
 		// This helps if the user is on mobile?
 		if(L.Browser.touch) 
 		{
@@ -49,16 +49,18 @@ L.Control.Sidebar = L.Control.extend({
 			// Adds in "back" button if the layer has a parent set
 			if(newLayer.getAttribute("parent"))
 			{
+				newLayer.children[1].style.height = (bodyHeight - 3).toString() + 'vh';
+				
 				var layerParent = parseInt(newLayer.getAttribute("parent"));
-				var backDiv = L.DomUtil.create('div', 'back-button');
-				var backButton = L.DomUtil.create('button', 'backback');
+				var backDiv = L.DomUtil.create('div', 'sidebar-back');
+				var backButton = L.DomUtil.create('button', 'back-button');
 				backButton.innerHTML = "Back";
 				backButton.onclick = function() {
 					this.showLayer(layerParent);
 				}.bind(this);
 				backDiv.appendChild(backButton);
 				
-				newLayer.children[1].appendChild(backDiv);
+				newLayer.insertBefore(backDiv, newLayer.children[1]);
 			}
 			
 			this._layers.push(newLayer);
@@ -78,14 +80,21 @@ L.Control.Sidebar = L.Control.extend({
 		
 		// Allows the user to specify if the sidebar is open when added to map
 		this._isVisible = this.options.openOnAdd;
-		
+
 		// Creates the container for the sidebar and the button
 		this._container = L.DomUtil.create('div', 'leaflet-sidebar');
 		this._container.id = this._id;
-		
-		if(this.options.fullHeight || this._side === 'right')
+
+		if(this.options.fullHeight)
 		{
-			this._container.style = (this.options.fullHeight ? "margin-left: 0; margin-right: 0; margin-top: 0;" : "") + (this._side === 'right' ? "justify-content: flex-end;" : "");
+			this._container.style.marginTop = 0;
+			this._container.style.marginRight = 0;
+			this._container.style.marginLeft = 0;
+		}
+		
+		if(this._side === 'right')
+		{
+			this._container.style.justifyContent = 'flex-end';
 		}
 
 		// Creates the div for the sidebar
@@ -97,7 +106,8 @@ L.Control.Sidebar = L.Control.extend({
 			this._content.appendChild(this._layers[0].firstChild);
 		}
 
-		this._content.style = (this._isVisible) ? "display: block;" : "display: none;";
+		this._content.style.display = (this._isVisible) ? 'block' : 'none';
+		this._content.id = this._side + "-layer";
 		
 		// Creates the div for the button to toggle the sidebar
 		this._closeButton = L.DomUtil.create('div', 'sidebar-close');
@@ -138,7 +148,7 @@ L.Control.Sidebar = L.Control.extend({
 			
 			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '>' : '<';
 			
-			this._content.style = "display: block;";
+			this._content.style.display = 'block';
 		}
 	},
 	close: function() 
@@ -150,7 +160,7 @@ L.Control.Sidebar = L.Control.extend({
 
 			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '<' : '>';
 			
-			this._content.style = "display: none;";
+			this._content.style.display = 'none';
 		}
 	},
 	showLayer: function(index) 
