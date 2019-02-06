@@ -83,7 +83,7 @@ L.Control.Sidebar = L.Control.extend({
 				map.attributionControl.setPosition('bottomleft');
 			}
 		}
-		
+	
 		// Allows the user to specify if the sidebar is open when added to map
 		this._isVisible = this.options.openOnAdd;
 
@@ -108,18 +108,12 @@ L.Control.Sidebar = L.Control.extend({
 		// Creates the div for the sidebar
 		this._content = L.DomUtil.create('div', 'sidebar-layer');
 		this._content.id = this._side + "-layer";
+
+		// Adds classes to sidebar for transition animation
+		L.DomUtil.addClass(this._content, this._side + '-collapse');
 		
-		// Adds classes to left sidebar (for the slide-in animation)
-		if(this._side === 'left') 
+		if(this._isVisible)
 		{
-			this._content.classList.add(this._side + '-collapse');
-			this._content.classList.add(this._side + '-show');
-		}
-		
-		// Adds classes to right sidebar (for the slide-in animation)
-		if(this._side === 'right') 
-		{
-			this._content.classList.add(this._side + '-collapse');
 			this._content.classList.add(this._side + '-show');
 		}
 		
@@ -136,7 +130,7 @@ L.Control.Sidebar = L.Control.extend({
 		
 		// Creates the actual button to toggle the sidebar
 		var cButton = L.DomUtil.create('button', 'close-button');
-		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? /* < */ '&#128896;' : '&#128898;' /* > */;
+		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? /* < */ '&#9668;' : '&#9658;' /* > */;
 		L.DomEvent.on(cButton, 'click', function() {
 			this.toggle();
 		}, this);
@@ -167,17 +161,9 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = true;
 			
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* > */ '&#128898;' : '&#128896;' /* < */;
-			if (this._side === 'left') 
-			{
-				this._content.classList.add(this._side + '-show');
-			}
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			if (this._side === 'right') 
-			{	
-				this._content.classList.add(this._side + '-show');
-			}
-
+			this._content.classList.add(this._side + '-show');
 		}
 	},
 	close: function() 
@@ -187,17 +173,9 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = false;
 
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* < */ '&#128896;' : '&#128898;' /* > */;
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			if (this._side === 'left') 
-			{	
-				this._content.classList.remove(this._side + '-show');
-			}
-			
-			if (this._side === 'right') 
-			{	
-				this._content.classList.remove(this._side + '-show');
-			}
+			this._content.classList.remove(this._side + '-show');
 		}
 	},
 	showLayer: function(index) 
