@@ -108,7 +108,20 @@ L.Control.Sidebar = L.Control.extend({
 		// Creates the div for the sidebar
 		this._content = L.DomUtil.create('div', 'sidebar-layer');
 		this._content.id = this._side + "-layer";
-		this._content.style.display = (this._isVisible) ? 'block' : 'none';
+		
+		// Adds classes to left sidebar (for the slide-in animation)
+		if(this._side === 'left') 
+		{
+			this._content.classList.add(this._side + '-collapse');
+			this._content.classList.add(this._side + '-show');
+		}
+		
+		// Adds classes to right sidebar (for the slide-in animation)
+		if(this._side === 'right') 
+		{
+			this._content.classList.add(this._side + '-collapse');
+			this._content.classList.add(this._side + '-show');
+		}
 		
 		// Extracts nodes from first layer to place into sidebar
 		this._currentIndex = 0;
@@ -123,7 +136,7 @@ L.Control.Sidebar = L.Control.extend({
 		
 		// Creates the actual button to toggle the sidebar
 		var cButton = L.DomUtil.create('button', 'close-button');
-		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? '<' : '>';
+		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? /* < */ '&#128896;' : '&#128898;' /* > */;
 		L.DomEvent.on(cButton, 'click', function() {
 			this.toggle();
 		}, this);
@@ -154,9 +167,17 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = true;
 			
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '>' : '<';
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* > */ '&#128898;' : '&#128896;' /* < */;
+			if (this._side === 'left') 
+			{
+				this._content.classList.add(this._side + '-show');
+			}
 			
-			this._content.style.display = 'block';
+			if (this._side === 'right') 
+			{	
+				this._content.classList.add(this._side + '-show');
+			}
+
 		}
 	},
 	close: function() 
@@ -166,9 +187,17 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = false;
 
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? '<' : '>';
+			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* < */ '&#128896;' : '&#128898;' /* > */;
+
+			if (this._side === 'left') 
+			{	
+				this._content.classList.remove(this._side + '-show');
+			}
 			
-			this._content.style.display = 'none';
+			if (this._side === 'right') 
+			{	
+				this._content.classList.remove(this._side + '-show');
+			}
 		}
 	},
 	showLayer: function(index) 

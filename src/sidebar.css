@@ -11,6 +11,12 @@
 	border-radius: 6px;
 	float: left;
 	width: 92%;
+	/* Slide animation values */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 .sidebar-header {
 	overflow: hidden;
@@ -27,9 +33,44 @@
 }
 .close-button {
 	margin: 0.5cm 0 0 0;
-	height: 4vh;
-	font-size: 16px;
+	height: 5vh;
+	font-size: 18px;
+	padding: 0 .5em;
+	background: #ffffff;
+	color: #000000; /* color of the arrows */
+	font-weight: bold;
+}
+.right-close .close-button {
+	border: 2px solid #BAB3AD;
+	margin-right: -2px;
+}
+.left-close .close-button {
+	border: 2px solid #BAB3AD;
+	margin-left: -2px;	
+}
+.close-button:hover {
+	cursor: pointer;
 }
 .sidebar-back {
 	height: 3vh;
+}
+
+.left-collapse {
+	position: absolute;
+	left: -33vw; /* Set the value of 'left' to the width of your sidebar */
+}
+
+.left-collapse.left-show {
+	position: relative;
+	left: 0;
+}
+
+.right-collapse {
+	position: absolute;
+	right: -33vw; /* Set the value of 'right' to the width of your sidebar */
+}
+
+.right-collapse.right-show {
+	position: relative;
+	right: 0;
 }
