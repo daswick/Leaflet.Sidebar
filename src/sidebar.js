@@ -14,13 +14,7 @@ L.Control.Sidebar = L.Control.extend({
 		L.setOptions(this, options);
 		
 		// Returns element from HTML based on its ID
-		this._sidebar = L.DomUtil.get(sidebarID);
-
-		// This helps if the user is on mobile?
-		if(L.Browser.touch) 
-		{
-			L.DomUtil.addClass(this._sidebar, 'leaflet-touch');
-		}
+		var sidebar = L.DomUtil.get(sidebarID);
 		
 		// Gets the "side" of the map the sidebar is on
 		this._side = (this.options.position === 'topright' || this.options.position === 'bottomright') ? 'right' : 'left';
@@ -33,9 +27,12 @@ L.Control.Sidebar = L.Control.extend({
 
 		// Extracts the different layers for this sidebar
 		this._layers = [];
-		for(var i = 0; i < this._sidebar.children.length; i++)
+		this._parents = [];
+		for(var i = 0; i < sidebar.children.length; i++)
 		{
-			var newLayer = this._sidebar.children[i];
+			var newLayer = sidebar.children[i];
+			
+			var layerParent = -1;
 			
 			// Assigns classes to header, body, and footer nodes
 			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');			
@@ -54,15 +51,18 @@ L.Control.Sidebar = L.Control.extend({
 				newLayer.children[1].style.height = (bodyHeight - 3).toString() + 'vh';
 				
 				// Parses parent attribute and creates back button container div
-				var layerParent = parseInt(newLayer.getAttribute("parent"));
+				layerParent = parseInt(newLayer.getAttribute("parent"));
+				
 				var backDiv = L.DomUtil.create('div', 'sidebar-back');
 				
 				// Creates actual button with the back function
 				var backButton = L.DomUtil.create('button', 'back-button');
 				backButton.innerHTML = "Back";
-				L.DomEvent.on(backButton, 'click', function() { 
-					this.showLayer(layerParent); 
+				
+				L.DomEvent.on(backButton, 'click', function() {
+					this.showParent();
 				}, this);
+				
 				backDiv.appendChild(backButton);
 				
 				// Inserts back button before body section
@@ -70,6 +70,7 @@ L.Control.Sidebar = L.Control.extend({
 			}
 			
 			this._layers.push(newLayer);
+			this._parents.push(layerParent);
 		}
 	},
 	onAdd: function(map) 
@@ -125,32 +126,34 @@ L.Control.Sidebar = L.Control.extend({
 		}
 		
 		// Creates the div for the button to toggle the sidebar
-		this._closeButton = L.DomUtil.create('div', 'sidebar-close');
-		L.DomUtil.addClass(this._closeButton, this._side + '-close');
+		this._closeDiv = L.DomUtil.create('div', 'sidebar-close');
+		L.DomUtil.addClass(this._closeDiv, this._side + '-close');
 		
 		// Creates the actual button to toggle the sidebar
-		var cButton = L.DomUtil.create('button', 'close-button');
-		cButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? /* < */ '&#9668;' : '&#9658;' /* > */;
-		L.DomEvent.on(cButton, 'click', function() {
+		this._closeButton = L.DomUtil.create('button', 'close-button');
+		this._closeButton.innerHTML = (!(this._side === 'left' ^ this._isVisible)) ? /* < */ '&#9668;' : '&#9658;' /* > */;
+		L.DomEvent.on(this._closeButton, 'click', function() {
 			this.toggle();
 		}, this);
-		this._closeButton.appendChild(cButton);
+		this._closeDiv.appendChild(this._closeButton);
 		
 		// Changes order of additions based on side (so they display correctly)
 		if(this._side === 'right')
 		{
-			this._container.appendChild(this._closeButton);	
+			this._container.appendChild(this._closeDiv);	
 			this._container.appendChild(this._content);
 		}
 		else
 		{
 			this._container.appendChild(this._content);
-			this._container.appendChild(this._closeButton);		
+			this._container.appendChild(this._closeDiv);		
 		}
 
 		// Disables click and scroll propagation, i.e. allow user to click and scroll on sidebar without affecting map
-		L.DomEvent.on(this._container, 'mousewheel', L.DomEvent.stopPropagation);
-		L.DomEvent.disableClickPropagation(this._container);		
+		L.DomEvent.disableScrollPropagation(this._content);
+		L.DomEvent.disableScrollPropagation(this._closeButton);
+		L.DomEvent.disableClickPropagation(this._content);
+		L.DomEvent.disableClickPropagation(this._closeButton);
 
 		return this._container;
 	},
@@ -161,9 +164,9 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = true;
 			
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
+			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			this._content.classList.add(this._side + '-show');
+			L.DomUtil.addClass(this._content, this._side + '-show');
 		}
 	},
 	close: function() 
@@ -173,9 +176,16 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this._isVisible = false;
 
-			this._closeButton.firstChild.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
+			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			this._content.classList.remove(this._side + '-show');
+			L.DomUtil.removeClass(this._content, this._side + '-show');
+		}
+	},
+	showParent: function()
+	{
+		if(this._parents[this._currentIndex] !== -1)
+		{
+			this.showLayer(this._parents[this._currentIndex]);
 		}
 	},
 	showLayer: function(index) 
@@ -210,14 +220,50 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			this.open();
 		}
+	},
+	onRemove: function()
+	{
+		this._side = null;
+		this._id = null;
+		this._isVisible = null;
+		
+		for(var i = 0; i < this._layers.length; i++)
+		{
+			while(this._layers[i].firstChild)
+			{
+				this._layers[i].removeChild(this._layers[i].firstChild);
+			}
+		}
+		this._layers = null;
+		
+		while(this._content.firstChild)
+		{
+			this._content.removeChild(this._content.firstChild);
+		}
+		
+		L.DomEvent.off(this._closeButton, 'click', function() {
+			this.toggle();
+		}, this);
+		this._closeDiv.removeChild(this._closeDiv.firstChild);
+		
+		while(this._container.firstChild)
+		{
+			this._container.removeChild(this._container.firstChild);
+		}
+		
+		this._content = null;
+		this._closeButton = null;
+		this._closeDiv = null;
+		this._container = null;
+	},
+	getContainer: function()
+	{
+		return this._container;
+	},
+	getCloseButton: function()
+	{
+		return this._closeButton;
 	}
-	/* 
-		Possible functions:
-		setOptions
-		onRemove
-		setWidth
-		setContent
-	*/
 });
 
 L.control.sidebar = function(sidebarID, options) {

@@ -49,6 +49,12 @@
 				showHeader: true,
 				showFooter: true
 			}).addTo(map);
+			
+			/*
+			setTimeout(function() {
+				sidebar.remove(map);
+			}, 5000);
+			*/
 		}
 	</script>
 </head>
@@ -88,7 +94,7 @@
 			</div>
 		</div>
 		
-		<div class="sidebar-content" id="sidebar-2">
+		<div class="sidebar-content" id="sidebar-2" parent="0">
 			<div class="sidebar-header">
 				<h1>Sidebar test </h1>
 			</div>
@@ -102,7 +108,7 @@
 			</div>
 		</div>
 		
-		<div class="sidebar-content" id="sidebar-3" parent="0">
+		<div class="sidebar-content" id="sidebar-3" parent="1">
 			<div class="sidebar-header">
 				<h1>Sidebar test </h1>
 			</div>
