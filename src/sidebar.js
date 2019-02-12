@@ -30,10 +30,43 @@ L.Control.Sidebar = L.Control.extend({
 		this._parents = [];
 		for(var i = 0; i < sidebar.children.length; i++)
 		{
-			var newLayer = sidebar.children[i];
-			
+			var newLayer = L.DomUtil.create('div', 'sidebar-layer');
 			var layerParent = -1;
 			
+			// Adds in the footer node
+			newLayer.appendChild(sidebar.children[i].children[0]);
+			
+			// Creates body div to fill in
+			var bodyDiv = L.DomUtil.create('div', 'sidebar-body');
+
+			// Adds in "back" button if the layer has a parent set
+			if(sidebar.children[i].getAttribute("parent"))
+			{
+				// Parses parent attribute and creates back button container div
+				layerParent = parseInt(sidebar.children[i].getAttribute("parent"));
+				
+				// Creates actual button with the back function
+				var backButton = L.DomUtil.create('button', 'back-button');
+				backButton.innerHTML = "Back";
+				
+				// Assigns binded function to back button
+				L.DomEvent.on(backButton, 'click', function() {
+					this.showParent();
+				}, this);
+				
+				// Inserts back button into body div
+				var backDiv = L.DomUtil.create('div', 'sidebar-back');
+				backDiv.appendChild(backButton);				
+				bodyDiv.appendChild(backDiv);
+			}
+
+			// Adds in the body node
+			bodyDiv.appendChild(sidebar.children[i].children[0]);
+			newLayer.appendChild(bodyDiv);
+			
+			// Adds in the footer node
+			newLayer.appendChild(sidebar.children[i].children[0]);
+
 			// Assigns classes to header, body, and footer nodes
 			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');			
 			L.DomUtil.addClass(newLayer.children[1], this._side + '-body');
@@ -43,31 +76,6 @@ L.Control.Sidebar = L.Control.extend({
 			newLayer.children[0].style.height = this.options.showHeader ? this.options.headerHeight.toString() + 'vh' : '0vh';
 			newLayer.children[1].style.height = bodyHeight.toString() + 'vh';
 			newLayer.children[2].style.height = this.options.showFooter ? this.options.footerHeight.toString() + 'vh' : '0vh';
-			
-			// Adds in "back" button if the layer has a parent set
-			if(newLayer.getAttribute("parent"))
-			{
-				// Shrink body height to accommodate back button
-				newLayer.children[1].style.height = (bodyHeight - 3).toString() + 'vh';
-				
-				// Parses parent attribute and creates back button container div
-				layerParent = parseInt(newLayer.getAttribute("parent"));
-				
-				var backDiv = L.DomUtil.create('div', 'sidebar-back');
-				
-				// Creates actual button with the back function
-				var backButton = L.DomUtil.create('button', 'back-button');
-				backButton.innerHTML = "Back";
-				
-				L.DomEvent.on(backButton, 'click', function() {
-					this.showParent();
-				}, this);
-				
-				backDiv.appendChild(backButton);
-				
-				// Inserts back button before body section
-				newLayer.insertBefore(backDiv, newLayer.children[1]);
-			}
 			
 			this._layers.push(newLayer);
 			this._parents.push(layerParent);
@@ -199,7 +207,7 @@ L.Control.Sidebar = L.Control.extend({
 		// Removes all content from the sidebar (and removes any nodes)
 		while(this._content.firstChild)
 		{
-			this._layers[this._currentIndex].appendChild(this._content.firstChild);
+			this._layers[this._currentIndex].appendChild(this._content.children[0]);
 		}
 		
 		// Sets the sidebar content to the requested layer
