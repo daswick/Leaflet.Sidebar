@@ -35,9 +35,6 @@
 .close-button:hover {
 	cursor: pointer;
 }
-.sidebar-back {
-	height: 3vh;
-}
 .left-collapse {
 	position: absolute;
 	left: -33vw; /* Set the value of 'left' to the width of your sidebar */
