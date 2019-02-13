@@ -148,6 +148,8 @@ L.Control.Sidebar = L.Control.extend({
 		// Changes order of additions based on side (so they display correctly)
 		if(this._side === 'right')
 		{
+			this._closeButton.style.paddingLeft = "8px";
+			this._closeButton.style.paddingRight = "4px";
 			this._container.appendChild(this._closeDiv);	
 			this._container.appendChild(this._content);
 		}
