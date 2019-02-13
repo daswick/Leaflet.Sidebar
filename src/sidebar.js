@@ -103,9 +103,9 @@ L.Control.Sidebar = L.Control.extend({
 		// Disables margins if the user has specified full height
 		if(this.options.fullHeight)
 		{
-			this._container.style.marginTop = 0;
-			this._container.style.marginRight = 0;
-			this._container.style.marginLeft = 0;
+			this._container.style.marginTop = '-2px';
+			this._container.style.marginRight = '-2px';
+			this._container.style.marginLeft = '-2px';
 		}
 		
 		// Ensures the toggle button will go to the end of the page
