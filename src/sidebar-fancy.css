@@ -23,3 +23,16 @@
 	flex-direction: column;
 	justify-content: center;
 }
+@media only screen and (max-width: 600px) {
+	.leaflet-sidebar {
+		width: 95vw;	
+	}
+	.left-collapse {
+		position: absolute;
+		left: -95vw; /* Set the value of 'left' to the width of your sidebar */
+	}
+	.right-collapse {
+		position: absolute;
+		right: -95vw; /* Set the value of 'right' to the width of your sidebar */
+	}
+}
