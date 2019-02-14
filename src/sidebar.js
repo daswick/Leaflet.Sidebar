@@ -119,11 +119,11 @@ L.Control.Sidebar = L.Control.extend({
 		this._content.id = this._side + "-layer";
 
 		// Adds classes to sidebar for transition animation
-		L.DomUtil.addClass(this._content, this._side + '-collapse');
+		L.DomUtil.addClass(this._container, this._side + '-collapse');
 		
 		if(this._isVisible)
 		{
-			this._content.classList.add(this._side + '-show');
+			this._container.classList.add(this._side + '-show');
 		}
 		
 		// Extracts nodes from first layer to place into sidebar
@@ -178,7 +178,7 @@ L.Control.Sidebar = L.Control.extend({
 			
 			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			L.DomUtil.addClass(this._content, this._side + '-show');
+			L.DomUtil.addClass(this._container, this._side + '-show');
 		}
 	},
 	close: function() 
@@ -192,7 +192,7 @@ L.Control.Sidebar = L.Control.extend({
 
 			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			L.DomUtil.removeClass(this._content, this._side + '-show');
+			L.DomUtil.removeClass(this._container, this._side + '-show');
 		}
 	},
 	showParent: function()

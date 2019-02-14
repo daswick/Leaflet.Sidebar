@@ -1,4 +1,4 @@
-.sidebar-layer {
+.leaflet-sidebar {
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
     -ms-transition: all 0.5s ease-in-out;
@@ -23,7 +23,7 @@
 	flex-direction: column;
 	justify-content: center;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
 	.leaflet-sidebar {
 		width: 95vw;	
 	}
