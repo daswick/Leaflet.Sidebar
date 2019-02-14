@@ -172,6 +172,8 @@ L.Control.Sidebar = L.Control.extend({
 		// If the sidebar is not currently marked as visible, open up
 		if(!this._isVisible) 
 		{
+			this.fire('open');
+			
 			this._isVisible = true;
 			
 			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
@@ -184,6 +186,8 @@ L.Control.Sidebar = L.Control.extend({
 		// If the sidebar is currently marked as visible, close it
 		if(this._isVisible) 
 		{
+			this.fire('close');
+			
 			this._isVisible = false;
 
 			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
@@ -205,6 +209,8 @@ L.Control.Sidebar = L.Control.extend({
 		{
 			return;
 		}
+		
+		this.fire('switchlayer');
 		
 		// Removes all content from the sidebar (and removes any nodes)
 		while(this._content.firstChild)
@@ -275,6 +281,8 @@ L.Control.Sidebar = L.Control.extend({
 		return this._closeButton;
 	}
 });
+
+L.extend(L.Control.Sidebar.prototype, L.Evented.prototype);
 
 L.control.sidebar = function(sidebarID, options) {
 	return new L.Control.Sidebar(sidebarID, options);
