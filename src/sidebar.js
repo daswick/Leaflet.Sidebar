@@ -83,21 +83,13 @@ L.Control.Sidebar = L.Control.extend({
 	},
 	onAdd: function(map) 
 	{
-		// Moves Leaflet attribution to bottomleft if sidebar is set for right
-		// BUG: If this is removed and sidebar is set for bottomright, the sidebar will appear incorrectly
-		if(this._side === 'right')
-		{
-			if(map.attributionControl)
-			{
-				map.attributionControl.setPosition('bottomleft');
-			}
-		}
+		this._hasAttribution = (map.attributionControl) ? true : false;
 	
 		// Allows the user to specify if the sidebar is open when added to map
 		this._isVisible = this.options.openOnAdd;
 
 		// Creates the container for the sidebar and the button
-		this._container = L.DomUtil.create('div', 'leaflet-sidebar');
+		this._container = L.DomUtil.create('div', 'leaflet-sidebar sidebar-transition');
 		this._container.id = this._id;
 
 		// Disables margins if the user has specified full height
@@ -115,15 +107,23 @@ L.Control.Sidebar = L.Control.extend({
 		}
 
 		// Creates the div for the sidebar
-		this._content = L.DomUtil.create('div', 'sidebar-layer');
+		this._content = L.DomUtil.create('div', 'sidebar-layer sidebar-transition');
 		this._content.id = this._side + "-layer";
+		
+		this._content.style.visibility = (this._isVisible) ? "visible" : "hidden";
 
 		// Adds classes to sidebar for transition animation
-		L.DomUtil.addClass(this._content, this._side + '-collapse');
+		L.DomUtil.addClass(this._container, this._side + '-collapse');
 		
 		if(this._isVisible)
 		{
-			this._content.classList.add(this._side + '-show');
+			this._container.classList.add(this._side + '-show');
+		}
+		
+		if(this._hasAttribution && this._side === 'right')
+		{
+			var attrClass = (this._isVisible) ? 'leaflet-control-attribution-right' : 'leaflet-control-attribution-right-closed';
+			document.getElementsByClassName('leaflet-control-attribution')[0].classList.add(attrClass);
 		}
 		
 		// Extracts nodes from first layer to place into sidebar
@@ -178,7 +178,14 @@ L.Control.Sidebar = L.Control.extend({
 			
 			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			L.DomUtil.addClass(this._content, this._side + '-show');
+			L.DomUtil.addClass(this._container, this._side + '-show');
+			
+			this._content.style.visibility = "visible";
+			
+			if(this._hasAttribution && this._side === 'right')
+			{
+				L.DomUtil.removeClass(document.getElementsByClassName('leaflet-control-attribution')[0], 'leaflet-control-attribution-right-closed');
+			}
 		}
 	},
 	close: function() 
@@ -192,7 +199,14 @@ L.Control.Sidebar = L.Control.extend({
 
 			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			L.DomUtil.removeClass(this._content, this._side + '-show');
+			L.DomUtil.removeClass(this._container, this._side + '-show');
+
+			this._content.style.visibility = "hidden";
+
+			if(this._hasAttribution && this._side === 'right')
+			{
+				L.DomUtil.addClass(document.getElementsByClassName('leaflet-control-attribution')[0], 'leaflet-control-attribution-right-closed');
+			}
 		}
 	},
 	showParent: function()
@@ -275,6 +289,10 @@ L.Control.Sidebar = L.Control.extend({
 	getContainer: function()
 	{
 		return this._container;
+	},
+	getContent: function() 
+	{
+		return this._content;
 	},
 	getCloseButton: function()
 	{

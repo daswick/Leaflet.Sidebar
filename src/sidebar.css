@@ -37,11 +37,11 @@
 }
 .left-collapse {
 	position: absolute;
-	left: -33vw; /* Set the value of 'left' to the width of your sidebar */
+	left: -31vw; /* Set the value of 'left' to the width of your sidebar */
 }
 .right-collapse {
 	position: absolute;
-	right: -33vw; /* Set the value of 'right' to the width of your sidebar */
+	right: -31vw; /* Set the value of 'right' to the width of your sidebar */
 }
 .left-collapse.left-show {
 	position: relative;
