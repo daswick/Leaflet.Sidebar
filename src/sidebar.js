@@ -104,7 +104,6 @@ L.Control.Sidebar = L.Control.extend({
 		// Disables margins if the user has specified full height
 		if(this.options.fullHeight)
 		{
-			
 			this._container.style.marginTop = '0px';
 			this._container.style.marginRight = '-2px';
 			this._container.style.marginLeft = '-2px';

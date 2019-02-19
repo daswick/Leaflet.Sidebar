@@ -2,7 +2,7 @@
 	display: none;
 }
 .leaflet-sidebar {
-	width: 33vw;
+	width: 400px;
 	display: flex;
 }
 .sidebar-layer {
@@ -28,7 +28,7 @@
 	margin: 0.5cm -2px 0 -2px;
 	border: 2px solid #BAB3AD;
 	height: 4em;
-	font-size: 12px;
+	font-size: 14px;
 	color: dimgray;
 	background: white;
 }
@@ -37,11 +37,11 @@
 }
 .left-collapse {
 	position: absolute;
-	left: -31vw; /* Set the value of 'left' to the width of your sidebar */
+	left: -370px; /* Set the value of 'left' to the width of your sidebar */
 }
 .right-collapse {
 	position: absolute;
-	right: -31vw; /* Set the value of 'right' to the width of your sidebar */
+	right: -370px; /* Set the value of 'right' to the width of your sidebar */
 }
 .left-collapse.left-show {
 	position: relative;

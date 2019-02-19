@@ -24,7 +24,7 @@
 	justify-content: center;
 }
 .leaflet-control-attribution-right {
-	right: 31vw;
+	right: 375px;
 	transition: right 0.5s ease-in-out;
 }
 .leaflet-control-attribution-right-closed {
@@ -36,11 +36,11 @@
 	}
 	.left-collapse {
 		position: absolute;
-		left: -88vw; /* Set the value of 'left' to the width of your sidebar */
+		left: -86vw; /* Set the value of 'left' to the width of your sidebar */
 	}
 	.right-collapse {
 		position: absolute;
-		right: -88vw; /* Set the value of 'right' to the width of your sidebar */
+		right: -86vw; /* Set the value of 'right' to the width of your sidebar */
 	}
 	.close-button {
 		font-size: 16px;
