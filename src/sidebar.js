@@ -23,8 +23,9 @@ L.Control.Sidebar = L.Control.extend({
 		// Determines the height of the sidebar elements based on options passed by user
 		var headerHeight = this.options.showHeader ? this.options.headerHeight : 0;
 		var footerHeight = this.options.showFooter ? this.options.footerHeight : 0;
-		var bodyHeight = (this.options.fullHeight ? 100 : 97) - headerHeight - footerHeight;
-
+		var bodyHeight = 100 - headerHeight - footerHeight;
+		this._sidebarHeight = (this.options.fullHeight) ? 100 : 97;
+		
 		// Extracts the different layers for this sidebar
 		this._layers = [];
 		this._parents = [];
@@ -59,23 +60,23 @@ L.Control.Sidebar = L.Control.extend({
 				backDiv.appendChild(backButton);				
 				bodyDiv.appendChild(backDiv);
 			}
-
+			
 			// Adds in the body node
 			bodyDiv.appendChild(sidebar.children[i].children[0]);
 			newLayer.appendChild(bodyDiv);
 			
 			// Adds in the footer node
 			newLayer.appendChild(sidebar.children[i].children[0]);
-
+			
 			// Assigns classes to header, body, and footer nodes
 			L.DomUtil.addClass(newLayer.children[0], this._side + '-header');			
 			L.DomUtil.addClass(newLayer.children[1], this._side + '-body');
 			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
-
+			
 			// Modifies height of the elements based on options
-			newLayer.children[0].style.height = this.options.showHeader ? this.options.headerHeight.toString() + 'vh' : '0vh';
-			newLayer.children[1].style.height = bodyHeight.toString() + 'vh';
-			newLayer.children[2].style.height = this.options.showFooter ? this.options.footerHeight.toString() + 'vh' : '0vh';
+			newLayer.children[0].style.height = headerHeight.toString() + '%';
+			newLayer.children[1].style.height = bodyHeight.toString() + '%';
+			newLayer.children[2].style.height = footerHeight.toString() + '%';
 			
 			this._layers.push(newLayer);
 			this._parents.push(layerParent);
@@ -92,10 +93,19 @@ L.Control.Sidebar = L.Control.extend({
 		this._container = L.DomUtil.create('div', 'leaflet-sidebar sidebar-transition');
 		this._container.id = this._id;
 
+		var viewheight = window.innerHeight * 0.01;
+		this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+
+		window.addEventListener('resize', function() {
+			var viewheight = window.innerHeight * 0.01;
+			this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+		}.bind(this));
+
 		// Disables margins if the user has specified full height
 		if(this.options.fullHeight)
 		{
-			this._container.style.marginTop = '-2px';
+			
+			this._container.style.marginTop = '0px';
 			this._container.style.marginRight = '-2px';
 			this._container.style.marginLeft = '-2px';
 		}
