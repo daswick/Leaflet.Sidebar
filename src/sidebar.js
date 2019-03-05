@@ -303,6 +303,10 @@ L.Control.Sidebar = L.Control.extend({
 	{
 		return this._content;
 	},
+	getCurrentIndex: function() 
+	{
+		return this._currentIndex;
+	},
 	getCloseButton: function()
 	{
 		return this._closeButton;
