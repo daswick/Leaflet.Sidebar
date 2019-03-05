@@ -50,9 +50,10 @@ var sidebar = L.control.sidebar("sidebar", options).addTo(map);
 | open() | N/A | Opens the sidebar. |
 | close() | N/A | Closes the sidebar. |
 | showParent() | N/A | If the current layer has a specified parent, display the parent layer. |
-| showLayer(<Number> index) | N/A | If the index is within bounds, display the index<sup>th</sup> layer. |
+| showLayer(\<Number> index) | N/A | If the index is within bounds, display the index<sup>th</sup> layer. |
 | toggle() | N/A | Toggles the sidebar. |
 | getContainer() | HTMLElement | Returns the HTML element that contains the sidebar. |
+| getCurrentIndex() | Number | Returns the index of the current layer of the sidebar. |
 | getCloseButton() | HTMLElement | Returns the HTML element that contains the close button. |
 
 ## Examples
