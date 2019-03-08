@@ -316,6 +316,10 @@ L.Control.Sidebar = L.Control.extend({
 		this._closeDiv = null;
 		this._container = null;
 	},
+	isOpen: function()
+	{
+		return this._isVisible;
+	}
 	getContainer: function()
 	{
 		return this._container;
