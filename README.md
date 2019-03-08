@@ -41,6 +41,7 @@ var sidebar = L.control.sidebar("sidebar", options).addTo(map);
 | showHeader | Boolean | false | Determines if the sidebar should display the header section. |
 | showFooter | Boolean | false | Determines if the sidebar should display the footer section. |
 | fullHeight | Boolean | false | Allows the sidebar to take up the full height of the window rather than having margins on the side. |
+| togglePan | Boolean | false | Pans the map right/left when the sidebar opens/closes respectively. |
 | headerHeight | Number | 10 | Specifies the height of the header (units in 'vh'). |
 | footerHeight | Number | 10 | Specifies the height of the footer (units in 'vh'). |
 
