@@ -47,12 +47,12 @@
 			marker.addTo(map);
 
 			leftSidebar = L.control.sidebar("left-sidebar", {
-				openOnAdd: true, 
+				openOnAdd: !L.Browser.mobile, 
 				showHeader: true
 			}).addTo(map);
 			
 			rightSidebar = L.control.sidebar("right-sidebar", {
-				openOnAdd: true, 
+				openOnAdd: !L.Browser.mobile, 
 				fullHeight: true, 
 				showHeader: true, 
 				showFooter: true, 
@@ -75,6 +75,7 @@
 					<li>showHeader: true</li>
 					<li>showFooter: false (default)</li>
 					<li>fullHeight: false (default)</li>
+					<li>togglePan: false (default)</li>
 					<li>headerHeight: 10 (default)</li>
 					<li>footerHeight: 10 (default)</li>
 				</ul>
@@ -114,6 +115,7 @@
 					<li>showHeader: true</li>
 					<li>showFooter: true</li>
 					<li>fullHeight: true</li>
+					<li>togglePan: false (default)</li>
 					<li>headerHeight: 10 (default)</li>
 					<li>footerHeight: 10 (default)</li>
 				</ul>

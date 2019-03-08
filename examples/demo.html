@@ -30,7 +30,7 @@
 			var map = L.map('map', {
 				center: [35.9738346, -78.8982177],
 				zoom: 16,
-				minZoom: 15,
+				minZoom: 10,
 				zoomControl: false
 			});
 			
@@ -46,7 +46,9 @@
 
 			sidebar = L.control.sidebar("sidebar", {
 				showHeader: true,
-				showFooter: true
+				showFooter: false,
+				fullHeight: true,
+				togglePan: true
 			}).addTo(map);
 			
 			sidebar.on('open', function() {
@@ -73,6 +75,7 @@
 					<li>showHeader: true</li>
 					<li>showFooter: true</li>
 					<li>fullHeight: false (default)</li>
+					<li>togglePan: true</li>
 					<li>headerHeight: 10 (default)</li>
 					<li>footerHeight: 10 (default)</li>
 				</ul>
