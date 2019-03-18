@@ -6,6 +6,7 @@ L.Control.Sidebar = L.Control.extend({
 		showFooter: false,
 		fullHeight: false,
 		togglePan: false,
+		autoResize: false,
 		headerHeight: 10,
 		footerHeight: 10
 	},
@@ -100,10 +101,13 @@ L.Control.Sidebar = L.Control.extend({
 		var viewheight = window.innerHeight * 0.01;
 		this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
 
-		window.addEventListener('resize', function() {
-			var viewheight = window.innerHeight * 0.01;
-			this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
-		}.bind(this));
+		if(this.options.autoResize)
+		{
+			window.addEventListener('resize', function() {
+				var viewheight = window.innerHeight * 0.01;
+				this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+			}.bind(this));			
+		}
 
 		// Disables margins if the user has specified full height
 		if(this.options.fullHeight)
