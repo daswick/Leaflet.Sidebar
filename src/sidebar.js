@@ -202,7 +202,15 @@ L.Control.Sidebar = L.Control.extend({
 			
 			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			L.DomUtil.addClass(this._container, this._side + '-show');
+			//L.DomUtil.addClass(this._container, this._side + '-show');
+			if(this._side === 'right')
+			{
+				this._container.style.right = 0;
+			}
+			else
+			{
+				this._container.style.left = 0;
+			}
 			
 			this._content.style.visibility = "visible";
 			
@@ -228,7 +236,15 @@ L.Control.Sidebar = L.Control.extend({
 
 			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			L.DomUtil.removeClass(this._container, this._side + '-show');
+			//L.DomUtil.removeClass(this._container, this._side + '-show');
+			if(this._side === 'right')
+			{
+				this._container.style.right = "-" + this._content.offsetWidth + "px";
+			}
+			else
+			{
+				this._container.style.left = "-" + (this._content.offsetWidth - 4) + "px";
+			}
 
 			this._content.style.visibility = "hidden";
 

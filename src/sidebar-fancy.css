@@ -36,11 +36,9 @@
 	}
 	.left-collapse {
 		position: absolute;
-		left: -86vw; /* Set the value of 'left' to the width of your sidebar */
 	}
 	.right-collapse {
 		position: absolute;
-		right: -86vw; /* Set the value of 'right' to the width of your sidebar */
 	}
 	.close-button {
 		font-size: 16px;
