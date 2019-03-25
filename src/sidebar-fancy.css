@@ -34,12 +34,6 @@
 	.leaflet-sidebar {
 		width: 95vw;	
 	}
-	.left-collapse {
-		position: absolute;
-	}
-	.right-collapse {
-		position: absolute;
-	}
 	.close-button {
 		font-size: 16px;
 	}

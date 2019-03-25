@@ -6,7 +6,7 @@ L.Control.Sidebar = L.Control.extend({
 		showFooter: false,
 		fullHeight: false,
 		togglePan: false,
-		autoResize: false,
+		autoResize: true,
 		headerHeight: 10,
 		footerHeight: 10
 	},
@@ -27,6 +27,7 @@ L.Control.Sidebar = L.Control.extend({
 		var footerHeight = this.options.showFooter ? this.options.footerHeight : 0;
 		var bodyHeight = 100 - headerHeight - footerHeight;
 		this._sidebarHeight = (this.options.fullHeight) ? 100 : 97;
+		this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
 		
 		// Extracts the different layers for this sidebar
 		this._layers = [];
@@ -98,14 +99,28 @@ L.Control.Sidebar = L.Control.extend({
 		this._container.id = this._id;
 
 		// Automatically sets the height of the sidebar based on the inner height of the browser
-		var viewheight = window.innerHeight * 0.01;
+		var viewheight = document.documentElement.scrollHeight * 0.01;
 		this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
 
 		if(this.options.autoResize)
 		{
 			window.addEventListener('resize', function() {
-				var viewheight = window.innerHeight * 0.01;
+				var viewheight = document.documentElement.scrollHeight * 0.01;
 				this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+				
+				this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
+				
+				if(!this._isVisible)
+				{
+					if(this._side === 'right')
+					{
+						this._container.style.right = "-" + this._sidebarWidth.toString() + "px";
+					}
+					else
+					{
+						this._container.style.left = "-" + this._sidebarWidth.toString() + "px";
+					}
+				}
 			}.bind(this));			
 		}
 
@@ -130,19 +145,25 @@ L.Control.Sidebar = L.Control.extend({
 		this._content.style.visibility = (this._isVisible) ? "visible" : "hidden";
 
 		// Adds classes to sidebar for transition animation
-		L.DomUtil.addClass(this._container, this._side + '-collapse');
+		L.DomUtil.addClass(this._container, 'sidebar-collapse');
 		
 		// Shows sidebar and pans map based on user options
-		if(this._isVisible)
+		var sideOffset = (this._isVisible) ? "0px" : ("-" + this._sidebarWidth.toString() + "px");
+		
+		if(this._side === 'right')
 		{
-			this._container.classList.add(this._side + '-show');
-			
-			if(this.options.togglePan)
-			{
-				this._map.panBy([-190, 0], {duration: 0, animate: false});
-			}
+			this._container.style.right = sideOffset;
+		}
+		else
+		{
+			this._container.style.left = sideOffset;
 		}
 		
+		if(this._isVisible && this.options.togglePan)
+		{
+			this._map.panBy([-190, 0], {duration: 0, animate: false});
+		}
+
 		// Adds class for CSS so the attribution
 		if(this._hasAttribution && this._side === 'right')
 		{
@@ -202,7 +223,6 @@ L.Control.Sidebar = L.Control.extend({
 			
 			this._closeButton.innerHTML = (this._side === 'right') ? /* > */ '&#9658;' : '&#9668;' /* < */;
 			
-			//L.DomUtil.addClass(this._container, this._side + '-show');
 			if(this._side === 'right')
 			{
 				this._container.style.right = 0;
@@ -236,10 +256,9 @@ L.Control.Sidebar = L.Control.extend({
 
 			this._closeButton.innerHTML = (this._side === 'right') ? /* < */ '&#9668;' : '&#9658;' /* > */;
 
-			//L.DomUtil.removeClass(this._container, this._side + '-show');
 			if(this._side === 'right')
 			{
-				this._container.style.right = "-" + this._content.offsetWidth + "px";
+				this._container.style.right = "-" + (this._content.offsetWidth - 4) + "px";
 			}
 			else
 			{

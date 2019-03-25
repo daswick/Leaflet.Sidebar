@@ -35,19 +35,3 @@
 .close-button:hover {
 	cursor: pointer;
 }
-.left-collapse {
-	position: absolute;
-	left: -370px; /* Set the value of 'left' to the width of your sidebar */
-}
-.right-collapse {
-	position: absolute;
-	right: -370px; /* Set the value of 'right' to the width of your sidebar */
-}
-.left-collapse.left-show {
-	position: relative;
-	left: 0;
-}
-.right-collapse.right-show {
-	position: relative;
-	right: 0;
-}
