@@ -106,25 +106,7 @@ L.Control.Sidebar = L.Control.extend({
 		if(this.options.autoResize)
 		{
 			window.addEventListener('resize', function() {
-				var viewheight = document.documentElement.scrollHeight * 0.01;
-				this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
-				this._bodyHeight = (this._sidebarHeight * viewheight) - this._headerHeight - this._footerHeight - 2;
-				
-				this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
-				
-				this._content.children[1].style.height = this._bodyHeight.toString() + 'px';
-				
-				if(!this._isVisible)
-				{
-					if(this._side === 'right')
-					{
-						this._container.style.right = "-" + this._sidebarWidth.toString() + "px";
-					}
-					else
-					{
-						this._container.style.left = "-" + this._sidebarWidth.toString() + "px";
-					}
-				}
+				this.repaint();
 			}.bind(this));			
 		}
 
@@ -282,6 +264,27 @@ L.Control.Sidebar = L.Control.extend({
 			}
 		}
 	},
+	repaint: function()
+	{
+		var viewheight = document.documentElement.scrollHeight * 0.01;
+		this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+		this._bodyHeight = (this._sidebarHeight * viewheight) - this._headerHeight - this._footerHeight - 2;
+		this._content.children[1].style.height = this._bodyHeight.toString() + 'px';
+				
+		if(!this._isVisible)
+		{
+			this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
+
+			if(this._side === 'right')
+			{
+				this._container.style.right = "-" + this._sidebarWidth.toString() + "px";
+			}
+			else
+			{
+				this._container.style.left = "-" + this._sidebarWidth.toString() + "px";
+			}
+		}
+	},
 	showParent: function()
 	{
 		if(this._parents[this._currentIndex] !== -1)
@@ -311,6 +314,8 @@ L.Control.Sidebar = L.Control.extend({
 			this._content.appendChild(this._layers[index].firstChild);
 		}
 		this._currentIndex = index;
+		
+		this.repaint();
 	},
 	toggle: function() 
 	{
