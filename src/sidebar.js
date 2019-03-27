@@ -6,7 +6,7 @@ L.Control.Sidebar = L.Control.extend({
 		showFooter: false,
 		fullHeight: false,
 		togglePan: false,
-		autoResize: false,
+		autoResize: true,
 		headerHeight: 10,
 		footerHeight: 10
 	},
@@ -23,11 +23,12 @@ L.Control.Sidebar = L.Control.extend({
 		this._id = (this.options.position === 'topright' || this.options.position === 'bottomright') ? "sidebar-right" : "sidebar-left";
 		
 		// Determines the height of the sidebar elements based on options passed by user
-		var headerHeight = this.options.showHeader ? this.options.headerHeight : 0;
-		var footerHeight = this.options.showFooter ? this.options.footerHeight : 0;
-		var bodyHeight = 100 - headerHeight - footerHeight;
+		var viewheight = document.documentElement.scrollHeight * 0.01;
 		this._sidebarHeight = (this.options.fullHeight) ? 100 : 97;
 		this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
+		this._headerHeight = (this.options.showHeader ? this.options.headerHeight : 0) * viewheight;
+		this._footerHeight = (this.options.showFooter ? this.options.footerHeight : 0) * viewheight;
+		this._bodyHeight = (this._sidebarHeight * viewheight) - this._headerHeight - this._footerHeight;
 		
 		// Extracts the different layers for this sidebar
 		this._layers = [];
@@ -41,7 +42,7 @@ L.Control.Sidebar = L.Control.extend({
 			newLayer.appendChild(sidebar.children[i].children[0]);
 			
 			// Creates body div to fill in
-			var bodyDiv = L.DomUtil.create('div', 'sidebar-body');
+			var bodyDiv = L.DomUtil.create('div', 'sidebar-body sidebar-transition');
 
 			// Adds in "back" button if the layer has a parent set
 			if(sidebar.children[i].getAttribute("parent"))
@@ -77,9 +78,9 @@ L.Control.Sidebar = L.Control.extend({
 			L.DomUtil.addClass(newLayer.children[2], this._side + '-footer');
 			
 			// Modifies height of the elements based on options
-			newLayer.children[0].style.height = headerHeight.toString() + '%';
-			newLayer.children[1].style.height = bodyHeight.toString() + '%';
-			newLayer.children[2].style.height = footerHeight.toString() + '%';
+			newLayer.children[0].style.height = this._headerHeight.toString() + 'px';
+			newLayer.children[1].style.height = this._bodyHeight.toString() + 'px';
+			newLayer.children[2].style.height = this._footerHeight.toString() + 'px';
 			
 			this._layers.push(newLayer);
 			this._parents.push(layerParent);
@@ -107,8 +108,11 @@ L.Control.Sidebar = L.Control.extend({
 			window.addEventListener('resize', function() {
 				var viewheight = document.documentElement.scrollHeight * 0.01;
 				this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
+				this._bodyHeight = (this._sidebarHeight * viewheight) - this._headerHeight - this._footerHeight - 2;
 				
 				this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
+				
+				this._content.children[1].style.height = this._bodyHeight.toString() + 'px';
 				
 				if(!this._isVisible)
 				{

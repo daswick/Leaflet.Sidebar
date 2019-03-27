@@ -17,6 +17,9 @@
 .sidebar-body {
 	overflow: auto;
 }
+.sidebar-content {
+	overflow: hidden;
+}
 .sidebar-footer {
 	bottom: 0;
 	right: 0;
