@@ -1,5 +1,5 @@
 # Leaflet.Sidebar
-A sidebar for Leaflet with ease of use in mind.
+A sidebar for Leaflet with ease of use and customization in mind.
 
 ## Usage
 This control was designed using Leaflet v1.4.0, but works as far back as v0.7.2 (at least that's as far as I've tested). This has no other dependencies. The sidebar includes two required files, [sidebar.js](https://github.com/daswick/Leaflet.Sidebar/blob/master/src/sidebar.js) and [sidebar.css](https://github.com/daswick/Leaflet.Sidebar/blob/master/src/sidebar.css), as well as an optional file, [sidebar-fancy.css](https://github.com/daswick/Leaflet.Sidebar/blob/master/src/sidebar-fancy.css), with additional styles and transitions.
@@ -41,6 +41,7 @@ var sidebar = L.control.sidebar("sidebar", options).addTo(map);
 | showHeader | Boolean | false | Determines if the sidebar should display the header section. |
 | showFooter | Boolean | false | Determines if the sidebar should display the footer section. |
 | fullHeight | Boolean | false | Allows the sidebar to take up the full height of the window rather than having margins on the side. |
+| autoResize | Boolean | false | Automatically resizes the dimensions of the sidebar when the window resizes. |
 | togglePan | Boolean | false | Pans the map right/left when the sidebar opens/closes respectively. |
 | headerHeight | Number | 10 | Specifies the height of the header (units in 'vh'). |
 | footerHeight | Number | 10 | Specifies the height of the footer (units in 'vh'). |
@@ -50,10 +51,12 @@ var sidebar = L.control.sidebar("sidebar", options).addTo(map);
 | --- | --- | --- |
 | open() | N/A | Opens the sidebar. |
 | close() | N/A | Closes the sidebar. |
+| repaint() | N/A | Repaints the sidebar. |
 | showParent() | N/A | If the current layer has a specified parent, display the parent layer. |
 | showLayer(\<Number> index) | N/A | If the index is within bounds, display the index<sup>th</sup> layer. |
 | toggle() | N/A | Toggles the sidebar. |
 | getContainer() | HTMLElement | Returns the HTML element that contains the sidebar. |
+| getContent() | HTMLElement | Returns the HTML element that contains the currently displayed content. |
 | getCurrentIndex() | Number | Returns the index of the current layer of the sidebar. |
 | getCloseButton() | HTMLElement | Returns the HTML element that contains the close button. |
 
