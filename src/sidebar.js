@@ -83,6 +83,7 @@ L.Control.Sidebar = L.Control.extend({
 			newLayer.children[2].style.height = this._footerHeight.toString() + 'px';
 			
 			this._layers.push(newLayer);
+			
 			this._parents.push(layerParent);
 		}
 	},
@@ -269,8 +270,17 @@ L.Control.Sidebar = L.Control.extend({
 		var viewheight = document.documentElement.scrollHeight * 0.01;
 		this._container.style.height = (this._sidebarHeight * viewheight).toString() + 'px';
 		this._bodyHeight = (this._sidebarHeight * viewheight) - this._headerHeight - this._footerHeight - 2;
+		
 		this._content.children[1].style.height = this._bodyHeight.toString() + 'px';
-				
+
+		for(var i = 0; i < this._layers.length; i++)
+		{
+			if(i !== this._currentIndex)
+			{
+				this._layers[i].children[1].style.height = this._bodyHeight.toString() + 'px';
+			}
+		}
+		
 		if(!this._isVisible)
 		{
 			this._sidebarWidth = (window.innerWidth <= 500) ? ((window.innerWidth * 0.95) - 31.5) : 370;
