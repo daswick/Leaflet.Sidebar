@@ -6,7 +6,7 @@ L.Control.Sidebar = L.Control.extend({
 		showFooter: false,
 		fullHeight: false,
 		togglePan: false,
-		autoResize: true,
+		autoResize: false,
 		headerHeight: 10,
 		footerHeight: 10
 	},
